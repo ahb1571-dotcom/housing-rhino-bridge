@@ -1,0 +1,5 @@
+{
+  "schema": "HOUSING_RHINO_TASK_1.0",
+  "task_id": "weather-provenance-example",
+  "task_type": "weather_provenance"
+}
