@@ -1,5 +1,21 @@
 {
   "schema": "HOUSING_RHINO_TASK_1.0",
-  "task_id": "initial-noop",
-  "task_type": "noop"
+  "task_id": "resolve-h-a25-o30-20260816",
+  "task_type": "scenario_registry",
+  "mode": "resolve_ambiguity",
+  "canonical_id": "H-A25-O30",
+  "read_only": true,
+  "expected": {
+    "orientation_deg": 30,
+    "wwr_n": 0.25,
+    "wwr_s": 0.25,
+    "wwr_e": 0.25,
+    "wwr_w": 0.25
+  },
+  "constraints": {
+    "no_simulation": true,
+    "no_source_modification": true,
+    "no_filename_as_evidence": true,
+    "active_graph_required": true
+  }
 }
