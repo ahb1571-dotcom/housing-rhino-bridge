@@ -1,21 +1,62 @@
 {
   "schema": "HOUSING_RHINO_TASK_1.0",
-  "task_id": "resolve-h-a25-o30-20260816",
-  "task_type": "scenario_registry",
-  "mode": "resolve_ambiguity",
-  "canonical_id": "H-A25-O30",
-  "read_only": true,
-  "expected": {
-    "orientation_deg": 30,
-    "wwr_n": 0.25,
-    "wwr_s": 0.25,
-    "wwr_e": 0.25,
-    "wwr_w": 0.25
-  },
-  "constraints": {
-    "no_simulation": true,
-    "no_source_modification": true,
-    "no_filename_as_evidence": true,
-    "active_graph_required": true
-  }
+  "task_id": "housing-v4-controlled-prepare",
+  "task_type": "controlled_verification",
+  "mode": "prepare_only",
+  "master_source_path": "E:\\research\\housingpaper\\RESIDENTIAL SIM\\RESIDENTIAL SIM\\r3\\25% closed\\+15\\R3+15.gh",
+  "master_sha256": "F00476DC38A4C6B47651511B661EF6A8D26358F33CBDB3F46FB23D9E6481D826",
+  "verified_epw_path": "C:\\Users\\amirhossein\\simulation\\unnamed\\IRN_YA_Yazd.Sadooghi.Intl.AP.408210_TMYx.2009-2023.epw",
+  "verified_epw_sha256": "8A1D9577065C3B5E342B4A5F77D6C4D14B2077362A1972238E388741188E8365",
+  "work_root": "E:\\research\\housingpaper\\verification_work_v4",
+  "timestep": 12,
+  "scenarios": [
+    {
+      "canonical_id": "H-A25-O00",
+      "orientation_deg": 0,
+      "wwr_n": 0.25,
+      "wwr_e": 0.25,
+      "wwr_s": 0.25,
+      "wwr_w": 0.25
+    },
+    {
+      "canonical_id": "H-NS-O00",
+      "orientation_deg": 0,
+      "wwr_n": 0.3,
+      "wwr_e": 0.0,
+      "wwr_s": 0.2,
+      "wwr_w": 0.0
+    },
+    {
+      "canonical_id": "H-A25-O15",
+      "orientation_deg": 15,
+      "wwr_n": 0.25,
+      "wwr_e": 0.25,
+      "wwr_s": 0.25,
+      "wwr_w": 0.25
+    },
+    {
+      "canonical_id": "H-NS-O15",
+      "orientation_deg": 15,
+      "wwr_n": 0.3,
+      "wwr_e": 0.0,
+      "wwr_s": 0.2,
+      "wwr_w": 0.0
+    },
+    {
+      "canonical_id": "H-A25-O30",
+      "orientation_deg": 30,
+      "wwr_n": 0.25,
+      "wwr_e": 0.25,
+      "wwr_s": 0.25,
+      "wwr_w": 0.25
+    },
+    {
+      "canonical_id": "H-NS-O30",
+      "orientation_deg": 30,
+      "wwr_n": 0.3,
+      "wwr_e": 0.0,
+      "wwr_s": 0.2,
+      "wwr_w": 0.0
+    }
+  ]
 }
