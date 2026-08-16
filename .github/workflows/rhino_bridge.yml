@@ -1,0 +1,73 @@
+name: Rhino Bridge
+
+on:
+  workflow_dispatch:
+    inputs:
+      task_type:
+        description: "Allowlisted task to run on the local Rhino workstation"
+        required: true
+        default: "health_check"
+        type: choice
+        options:
+          - health_check
+          - weather_provenance
+  push:
+    branches: [main]
+    paths:
+      - "tasks/current_task.json"
+
+permissions:
+  contents: read
+
+jobs:
+  rhino_bridge:
+    runs-on: [self-hosted, windows, x64]
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout task repository
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Prepare task
+        id: prepare
+        shell: powershell
+        run: |
+          $taskPath = "${{ github.workspace }}\tasks\current_task.json"
+          if ("${{ github.event_name }}" -eq "workflow_dispatch") {
+            $task = [ordered]@{
+              schema = "HOUSING_RHINO_TASK_1.0"
+              task_id = "manual-${{ github.run_id }}-${{ github.run_attempt }}"
+              task_type = "${{ inputs.task_type }}"
+            }
+            $taskPath = "$env:RUNNER_TEMP\bridge_task.json"
+            $task | ConvertTo-Json | Set-Content -Encoding UTF8 $taskPath
+          }
+          "task_path=$taskPath" >> $env:GITHUB_OUTPUT
+
+      - name: Execute fixed local bridge dispatcher
+        id: execute
+        continue-on-error: true
+        shell: powershell
+        run: |
+          $local = "E:\research\housingpaper\_rhino_bridge_local\run_task.ps1"
+          if (-not (Test-Path $local)) { throw "Local bridge is not installed at $local" }
+          $out = "$env:RUNNER_TEMP\rhino_bridge_result_${{ github.run_id }}_${{ github.run_attempt }}"
+          New-Item -ItemType Directory -Force -Path $out | Out-Null
+          & powershell -NoProfile -ExecutionPolicy Bypass -File $local -TaskFile "${{ steps.prepare.outputs.task_path }}" -OutputDir $out
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Upload bridge result
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: rhino-bridge-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}\rhino_bridge_result_${{ github.run_id }}_${{ github.run_attempt }}
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Preserve task failure status
+        if: steps.execute.outcome == 'failure'
+        shell: powershell
+        run: exit 1
